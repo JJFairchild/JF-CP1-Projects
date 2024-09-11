@@ -1,0 +1,10 @@
+print("Note: This program does not convert '%'. Please do not type '%' or you will encounter an error.")
+math = float(input("What is your grade in Math?: "))
+cs = float(input("What is your grade in Computer Science?: "))
+bio = float(input("What is your grade in Biology?: "))
+geo = float(input("What is your grade in Geography?: "))
+eng = float(input("What is your grade in English?: "))
+art = float(input("What is your grade in Art?: "))
+
+average = ((math + cs + bio + geo + eng + art)/6)
+print(f"Your average grade is {average}%.")
