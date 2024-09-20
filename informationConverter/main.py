@@ -27,6 +27,6 @@ User information:
 Age: {int(age)} years
 Height (meters): {float(height)}
 
-FaVoRiTe NuMbEr!1!!!: {str(num)}!!1!
+FaVoRiTe NuMbEr!1!!!: {int(num)}!!1!
 
 """)
