@@ -1,3 +1,4 @@
+#Jonas Fairchild, Pig Latin Converter
 
 word = input("Type the word you want to convert to Pig Latin.: ")
 
@@ -8,7 +9,7 @@ w = ''
 if isVowel(word, 0):
     w = 'w'
 
-while isVowel(word, 0) == False:
+while not isVowel(word, 0):
     word = word[1:] + word[0]
 
 print(word + w + "ay")
