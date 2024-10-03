@@ -1,5 +1,5 @@
-class BankAccount:
-    def __init__(self, account_number, balance=0): #Defines a function that
+class BankAccount: #Puts the following functions into a class so they are grouped together.
+    def __init__(self, account_number, balance=0):
         self.account_number = account_number
         self.balance = balance
 
@@ -39,7 +39,7 @@ def main(): #Defines a function 'main' that requests an input then acts accordin
             accounts[account.account_number] = account
             print(f"Account {account.account_number} created successfully!")
         
-        elif choice in ['2', '3', '4']: #Inputs a specific account number, then uses it to perform one of the other available actions.
+        elif choice in ['2', '3', '4']: #Inputs a specific account number, then uses it to perform one of the other available actions that use account numbers.
             account_number = input("Enter account number: ")
             if account_number in accounts:
                 account = accounts[account_number]
@@ -67,5 +67,5 @@ def main(): #Defines a function 'main' that requests an input then acts accordin
         else:
             print("Invalid choice. Please try again.") #Prints if original number is not in range 1-5.
 
-if __name__ == "__main__":
+if __name__ == "__main__": #Runs the program again.
     main()
