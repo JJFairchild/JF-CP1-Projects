@@ -41,7 +41,7 @@ def main(): #Defines a function 'main' that requests an input then acts accordin
         
         elif choice in ['2', '3', '4']: #Inputs a specific account number, then uses it to perform one of the other available actions that use account numbers.
             account_number = input("Enter account number: ")
-            if account_number in accounts:
+            if account_number in accounts: #Checks if the requested account actually exists.
                 account = accounts[account_number]
                 if choice == '2': #Adds a requested deposit to the requested account
                     amount = float(input("Enter deposit amount: "))
@@ -58,7 +58,7 @@ def main(): #Defines a function 'main' that requests an input then acts accordin
                 else:
                     print(f"Current balance: ${account.get_balance():.2f}") #Prints the current balance of the requested account.
             else:
-                print("Account not found.") #Standard error message.
+                print("Account not found.") #Prints if the account number requested does not exist.
         
         elif choice == '5': #Exits the program if user chooses 5.
             print("Thank you for using our banking system. Goodbye!")
