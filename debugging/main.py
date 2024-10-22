@@ -20,7 +20,7 @@ def start_game():
             attempts += 1 #The 'attempts' value was not being incremented, so the lose condition would never be met. Logic error. This made it so that the game would give you infinite tries, even though it should only give you 10.
         elif guess < number_to_guess:
             print("Too low! Try again.")  
-            attempts += 1 #Again, just increment the 'attempts' value, or no lose conditions will be met. Logic error. Prevented the program from ever making the player lose.
+            attempts += 1
         continue
     print("Game Over. Thanks for playing!")
 start_game()
