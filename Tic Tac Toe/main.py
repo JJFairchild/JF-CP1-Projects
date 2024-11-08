@@ -1,3 +1,5 @@
+#Jonas Fairchild, Tic Tac Toe
+
 import random
 board = [
 " ", " ", " ", 
@@ -13,7 +15,7 @@ player = 0
 bot = 0
 wins = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
 
-def tie_check():
+def tie_check(): #Looks at the current board and determines if there is a tie
     i = 0
     for play in board:
         if play == "X" or play == "O":
@@ -21,7 +23,7 @@ def tie_check():
     if i != 9:
         i = 0
     return i == 9
-def win_check(XO):
+def win_check(XO): #Looks at the current board and determines if someone won and who
     x_win = 0
     o_win = 0
     for win in wins:
@@ -59,7 +61,7 @@ def win_check(XO):
                 x_win = 0
                 o_win = 0
     return " "
-def print_board():
+def print_board(): #Prints the current board in an organized fashion
     print(f"""Current board: 
 {board[0]} | {board[1]} | {board[2]}
 {board[3]} | {board[4]} | {board[5]}
