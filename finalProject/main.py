@@ -1,4 +1,4 @@
-blockTypes = ['▮', '#', '*', 'M']
+blockTypes = ['▮', 'v', '^', '>', '<', 'C', 'M']
 playerPos = [0, 0]
 mapBlocks = [playerPos, 3, [-1, -2], 0, [0, -2], 0, [1, -2], 0]
 gravity = 1.5
@@ -40,9 +40,9 @@ def collision(): #Checks for objects around the player.
                     coll_returns.append('d')
                 if space == [playerPos[0], playerPos[1] - 1]:
                     coll_returns.append('s')
-            if blockTypes[mapBlocks[mapBlocks.index(space) + 1]] == '#' and space == playerPos: #Returns a death if a # overlaps the player.
+            if blockTypes[mapBlocks[mapBlocks.index(space) + 1]] in ['v', '^', '>', '<'] and space == playerPos: #Returns a death if a spike overlaps the player.
                 coll_returns.append('dead')
-            if blockTypes[mapBlocks[mapBlocks.index(space) + 1]] == '*' and space == playerPos: #If a coin is detected, remove it from the board and add it to the score.
+            if blockTypes[mapBlocks[mapBlocks.index(space) + 1]] == 'C' and space == playerPos: #If a coin is detected, remove it from the board and add it to the score.
                 del mapBlocks[mapBlocks.index(space) + 1]
                 mapBlocks.remove(mapBlocks[space])
                 coins += 1
