@@ -48,11 +48,7 @@ def collision(): #Checks for objects around the player.
                 coins += 1
     return coll_returns
 
-def jump():
-    #Used in the move function. Adds a certain value to the player's velocity, then uses gravity to take it back down until it hits something. May decide to make part of the move function.
-    pass
-
 def move():
-    #Uses an advanced method to check if a key is being held down, then accellerates until it reaches top speed. playerPos is a less accurate, rounded version of this number. Also has an option to increase gravity when holding s.
+    #Uses an advanced method to check if a key is being held down, then accellerates until it reaches top speed. playerPos is a less accurate, rounded version of this number. When jumping, adds a certain value to the player's velocity, then uses gravity to take it back down until it hits something or reaches terminal velocity. Also has an option to increase gravity when holding s.
     pass
 
