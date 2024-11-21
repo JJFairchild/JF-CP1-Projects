@@ -1,9 +1,10 @@
-blockTypes = ['▮', 'v', '^', '>', '<', 'C', 'M']
+blockTypes = ['▮', '▯', 'v', '^', '>', '<', 'C', 'M']
 playerPos = [0, 0]
-mapBlocks = [playerPos, 3, [-1, -2], 0, [0, -2], 0, [1, -2], 0]
 gravity = 1.5
 velocity = 0
 coins = 0
+import keyboard
+mapBlocks = [playerPos, 7, [-1, -2], 0, [0, -2], 0, [1, -2], 0]
 
 def area(x1, y1, x2, y2): #Defines a function which takes two coordinate points and selects every point between them.
     areaList = []
@@ -52,3 +53,8 @@ def move():
     #Uses an advanced method to check if a key is being held down, then accellerates until it reaches top speed. playerPos is a less accurate, rounded version of this number. When jumping, adds a certain value to the player's velocity, then uses gravity to take it back down until it hits something or reaches terminal velocity. Also has an option to increase gravity when holding s.
     pass
 
+print("Welcome to Mountain Adventure. Use WASD to move, and be aware that there are no checkpoints!")
+
+while True:
+    displayScreen()
+    move()
