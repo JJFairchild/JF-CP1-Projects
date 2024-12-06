@@ -1,3 +1,4 @@
+#Jonas Fairchild, Final Project
 blockTypes = ['▮', '▯', 'v', '^', '>', '<', 'C', 'M']
 playerPos = [0, 0]
 gravity = 1.5
@@ -55,6 +56,7 @@ def move():
 
 print("Welcome to Mountain Adventure. Use WASD to move, and be aware that there are no checkpoints!")
 
-while True:
-    displayScreen()
-    move()
+while moveError:
+    playerPos = move(0)
+    displayScreen(0)
+    time.sleep(0.25)
