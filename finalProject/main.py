@@ -11,10 +11,26 @@ coins = 0
 import time
 map = [playerPos, 7, [-1, -2], 0, [0, -2], 0, [1, -2], 0]
 inventory = []
+mapBoard = '''
+▮▮▮▮▮▮▮▮▮▮▮
+▮▮▮▮▮ ▮▮▮▮▮
+▮▮▮▮▮ ▮▮▮▮▮
+▮▮▮▮▮  ▮▮▮▮
+▮▮▮    ▮▮▮▮
+▮    ▮    ▮
+▮    ▮▮   ▮
+▮    ▮    ▮
+▮▮   ▮  ▮▮▮
+▮▮▮▮    ▮▮▮
+▮▮▮▮   ▮▮▮▮
+▮▮▮▮  ▮▮▮▮▮
+▮▮▮  ▮▮▮▮▮▮
+▮▮▮▮▮▮▮▮▮▮▮
+'''
 
 def area(x1, y1, x2, y2): #Defines a function which takes two coordinate points and selects every point between them.
     areaList = []
-    for y in range(y1, y2 + 2):
+    for y in range(y2, y1 - 2, -1):
         for x in range(x1, x2 + 1):
             areaList.append([x, y])
     return areaList
@@ -103,9 +119,25 @@ def playMap():
     if 'enemy' in collision():
         playReturns.append('enemy')
     if keyboard.is_pressed('e') and not keyboard.is_pressed('m'):
-        print(inventory)
+        for item in inventory:
+            print(item, end=', ')
     elif keyboard.is_pressed('m') and not keyboard.is_pressed('e'):
-    
+        print(mapBoard)
     else:
         displayScreen()
-        move()
+        return move()
+        
+
+while moveError:
+    playerPos = move()
+    playMap()
+    print(collision())
+    print(velocity)
+    print(move())
+    print(playerPos)
+    time.sleep(0.25)
+
+def choices(inventory): #Every item in the game that can be both picked up and used. Gives the action you can do with the item, and what that action does.
+    choiceReturns = []	
+    if 'sword' in inventory:
+		choiceReturns.append(['use sword', 30]) #The action that can be done and the damage it does.
