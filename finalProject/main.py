@@ -1,9 +1,22 @@
 #Jonas Fairchild, Final Project
-playerName = input('Select a one-character name for your player: ')
-while len(playerName) != 1:
-    print('Invalid player name. Try again.')
+
+try: #Checks if the keyboard is installed and does not run the rest of the program if not.
+    import keyboard
+    moveError = True
+except:
+    print("Please install the keyboard by typing 'pip3 install keyboard' into the terminal before playing.")
+    moveError = False
+
+if moveError:
     playerName = input('Select a one-character name for your player: ')
+    while len(playerName) != 1:
+        print('Invalid player name. Try again.')
+        playerName = input('Select a one-character name for your player: ')
+
 blockTypes = ['▮', '▯', 'v', '^', '>', '<', 'C', playerName, 'E']
+enemies = [[100, [['use sword', 30]]]]
+health = 100
+import random
 playerPos = [0, 0]
 gravity = 0.25
 velocity = [0, 0]
@@ -73,12 +86,6 @@ def collision(): #Checks for objects around the player.
                 coll_returns.append('enemy')
     return coll_returns
 
-try: #Checks if the keyboard is installed and does not run the rest of the program if not.
-    import keyboard
-    moveError = True
-except:
-    print("Please install the keyboard by typing 'pip3 install keyboard' into the terminal before playing.")
-    moveError = False
 if moveError:
     def move(): #Defines the movement function based on keys pressed, but only if the keyboard is installed.
         keysPressed = []
@@ -88,7 +95,7 @@ if moveError:
         for key in keysPressed:
             if key in collision():
                 del keysPressed[keysPressed.index(key)]
-        
+            
         if 'w' in keysPressed and 's' in collision():
             velocity[1] = 2
         elif 'w' in collision() and velocity[1] > 0:
@@ -114,7 +121,8 @@ if moveError:
             velocity[1] -= gravity
         return [playerPos[0] + int(velocity[0]), playerPos[1] + int(velocity[1])]
 
-def playMap():
+def playMap(): #A set of other functions collected to do everything needed to run the platformer part. Also returns values that help with entering combat and viewing other important parts of the game.
+    global playerPos
     playReturns = []
     if 'enemy' in collision():
         playReturns.append('enemy')
@@ -125,19 +133,40 @@ def playMap():
         print(mapBoard)
     else:
         displayScreen()
-        return move()
-        
-
-while moveError:
-    playerPos = move()
-    playMap()
-    print(collision())
-    print(velocity)
-    print(move())
-    print(playerPos)
+        playerPos = move()
     time.sleep(0.25)
-
+        
 def choices(inventory): #Every item in the game that can be both picked up and used. Gives the action you can do with the item, and what that action does.
-    choiceReturns = []	
+    choiceReturns = []
     if 'sword' in inventory:
-		choiceReturns.append(['use sword', 30]) #The action that can be done and the damage it does.
+        choiceReturns.append('attack', 'use sword', 30)
+    return choiceReturns
+
+def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets the user make a choice, does a random action for the enemy, and repeats until someone dies.
+    global health
+    while True:
+        print(health)
+        print(inventory)
+        print(choices(inventory))
+        print(enemies[enemy[0]]) #Displays enemy health
+        userAttack = input('What do you want to do?: ')
+        while userAttack not in choices(inventory):
+            print('Invalid choice. Try again.')
+            userAttack = input('What do you want to do?: ')
+        enemies[enemy[0]] -= choices(inventory)[choices(inventory).index(userAttack)][1] #This sort of jargon is hard to wrap your head around, but this just subtracts the enemy’s health by the damage of the user’s attack.
+        if enemies[enemy[0]] < 0: #If enemy is dead
+            print('Congratulations, you defeated the enemy!')
+            break
+        health -= random.choice[enemies[enemy[1]]] #Subtracts the user’s health by the damage of the enemy’s attack.
+        if health < 0:
+            print(f'Oh no, you were killed by {enemies[enemy[0]]}!')
+            return 'dead'
+
+while moveError: #The loop that starts running the game. Includes a method of restarting the game on death.
+	if 'enemy' in playMap():
+		if 'dead' in combat(random.choice(enemies)):
+			if input('Game over. Play again?').lower() == 'no':
+				break
+	if 'dead' in collision():
+		if input('Game over. Play again?').lower() == 'no':
+			break
