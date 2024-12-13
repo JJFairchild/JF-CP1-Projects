@@ -48,20 +48,24 @@ def area(x1, y1, x2, y2): #Defines a function which takes two coordinate points 
             areaList.append([x, y])
     return areaList
 
-def displayScreen(): #Displays the current visible screen.
-    mapRow = []
-    prevY = playerPos[1] - 5
-    for space in area(playerPos[0] - 10, playerPos[1] - 5, playerPos[0] + 10, playerPos[1] + 5): #Checks every square in a certain area around the player.
-        if space[1] != prevY: #Checks if the Y value is new, and if so prints the row.
-            for block in mapRow:
-                print(block, end = '')
-            print()
-            mapRow = []
-        prevY = space[1]
-        if space in map:  #Adds the space type to the current row.
-            mapRow.append(blockTypes[map[map.index(space) + 1]])
-        else:
-            mapRow.append(' ')
+def displayScreen():
+    print(area(playerPos[0] - 10, playerPos[1] - 5, playerPos[0] + 10, playerPos[1] + 5))
+#    row = []
+#    prevY = playerPos[1] + 5
+#    for space in area(playerPos[0] - 10, playerPos[1] - 5, playerPos[0] + 10, playerPos[1] + 5):
+#        if space[1] != prevY:
+#            for i in row:
+#                print(i, end='')
+#                print()
+#                print(row)
+#                print(prevY)
+#                print(space)
+#                row = []
+#        if space in map:
+#            row.append(blockTypes[map[map.index(space) + 1]])
+#        else:
+#            row.append(' ')
+#        prevY = space[1]
 
 def collision(): #Checks for objects around the player.
     coll_returns = []
@@ -123,9 +127,6 @@ if moveError:
 
 def playMap(): #A set of other functions collected to do everything needed to run the platformer part. Also returns values that help with entering combat and viewing other important parts of the game.
     global playerPos
-    playReturns = []
-    if 'enemy' in collision():
-        playReturns.append('enemy')
     if keyboard.is_pressed('e') and not keyboard.is_pressed('m'):
         for item in inventory:
             print(item, end=', ')
@@ -163,10 +164,19 @@ def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets 
             return 'dead'
 
 while moveError: #The loop that starts running the game. Includes a method of restarting the game on death.
-	if 'enemy' in playMap():
-		if 'dead' in combat(random.choice(enemies)):
-			if input('Game over. Play again?').lower() == 'no':
-				break
-	if 'dead' in collision():
-		if input('Game over. Play again?').lower() == 'no':
-			break
+    playMap()
+    if 'enemy' in collision():
+        if 'dead' in combat(random.choice(enemies)):
+            if input('Game over. Play again?').lower() == 'no':
+                break
+            else:
+                playerPos = [0, 0]
+                health = 100
+                inventory = []
+    if 'dead' in collision():
+        if input('Game over. Play again?').lower() == 'no':
+            break
+        else:
+            playerPos = [0, 0]
+            health = 100
+            inventory = []
