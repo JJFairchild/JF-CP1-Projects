@@ -47,17 +47,17 @@ Be prepared to enter combat with a smaller creature at random! This will happen 
 
 
 ''')
-            input('done reading?: ')
+            input('Done reading?: ')
             break
         elif tutorial == 'n':
             break
         else:
             print('Invalid input. Try again.')
-            tutorial = input('Would you like a quick tutorial? Y/n: ').lower
+            tutorial = input('Would you like a quick tutorial? Y/n: ').lower()
 
 
 blockTypes = ['▮', '▯', 'v', '^', '>', '<', 'C', 'E']
-map = [[-1, -2], 0, [0, -2], 0, [1, -2], 0, [2, -2], 0, [3, -2], 0, [4, -2], 0, [5, -2], 0]
+map = [[-1, -2], 0, [0, -2], 0, [1, -2], 0, [2, -2], 0, [3, -2], 0, [4, -2], 0, [5, -2], 0, [5, -1], 7, 0]
 playerPos = [0, 0]
 gravity = 0.25
 velocity = [0, 0]
@@ -80,14 +80,14 @@ mapBoard = '''
 
 enemies = [
     # Relatively Easy to Defeat
-    ['Shrublike Creature', 25, [['attack', 'Vine Whip', 5], ['defend', 'Root Shield', 5], ['heal', 'Photosynthesize', 8]]],
-    ['Red-Eyed Rabbit', 30, [['attack', 'Frantic Bite', 8], ['attack', 'Scratch', 5], ['defend', 'Quick Dodge', 4]]],
+    ['Shrublike Creature', 25, [['attack', 'Vine Whip', 5], ['defend', 'Root Shield', 5], ['heal', 'Photosynthesize', 8]], 'Small Healing Potion'],
+    ['Red-Eyed Rabbit', 30, [['attack', 'Frantic Bite', 8], ['attack', 'Scratch', 5], ['defend', 'Quick Dodge', 4]], 'Wooden Shield'],
     
     # Slightly Harder
-    ['Shark', 50, [['attack', 'Bite', 12], ['attack', 'Tail Whip', 7], ['defend', 'Water Veil', 8]]],
-    ['Octopus', 55, [['attack', 'Ink Spray', 8], ['attack', 'Tentacle Slap', 10], ['defend', 'Ink Defense', 6]]],
-    ['Wolf', 60, [['attack', 'Bite', 10], ['attack', 'Howl', 12], ['defend', 'Dodge', 5]]],
-    ['Skinwalker', 65, [['attack', 'Shape Strike', 12], ['attack', 'Terrifying Form', 10], ['heal', 'Absorb Essence', 12]]],
+    ['Shark', 50, [['attack', 'Bite', 12], ['attack', 'Tail Whip', 7], ['defend', 'Water Veil', 8]], 'Medium Healing Potion'],
+    ['Octopus', 55, [['attack', 'Ink Spray', 8], ['attack', 'Tentacle Slap', 10], ['defend', 'Ink Defense', 6]], 'Medium Healing Potion'],
+    ['Wolf', 60, [['attack', 'Bite', 10], ['attack', 'Howl', 12], ['defend', 'Dodge', 5]], 'Iron Shield'],
+    ['Skinwalker', 65, [['attack', 'Shape Strike', 12], ['attack', 'Terrifying Form', 10], ['heal', 'Absorb Essence', 12]], 'Iron Sword'],
     
     # Moderately Hard
     ['Sentient Cactus', 70, [['attack', 'Spike Shoot', 10], ['defend', 'Hardened Spikes', 10], ['heal', 'Absorb Sunlight', 10]]],
@@ -108,7 +108,7 @@ enemies = [
     ['Magma Slime', 125, [['attack', 'Lava Splash', 20], ['attack', 'Heat Pulse', 25], ['defend', 'Molten Shell', 18], ['heal', 'Molten Regeneration', 18]]],
     
     # Minibosses
-    ['Grassworm', 120, [['attack', 'Vine Crush', 20], ['defend', 'Leaf Shield', 15], ['heal', 'Regrow', 20]]],
+    ['Grassworm', 120, [['attack', 'Vine Crush', 20], ['defend', 'Leaf Shield', 15], ['heal', 'Regrow', 10]]],
     ['The Silent One', 130, [['attack', 'Shadow Claw', 22], ['attack', 'Silence Strike', 25], ['defend', 'Shadow Fade', 12]]],
     ['The Sandmaster', 140, [['attack', 'Sandstorm', 28], ['defend', 'Sand Cloak', 15], ['heal', 'Desert Absorption', 25]]],
     ['Skrum', 150, [['attack', 'Tentacle Slam', 30], ['attack', 'Ink Burst', 25], ['defend', 'Abyssal Dodge', 18]]],
@@ -118,7 +118,7 @@ enemies = [
 
 health = 100 
 coins = 0
-inventory = []
+inventory = ['Stone Sword']
 
 def area(x1, y1, x2, y2): #Defines a function which takes two coordinate points and selects every point between them.
     areaList = []
@@ -165,6 +165,7 @@ def collision(): #Checks for objects around the player.
                 coll_returns.append('coin')
             if blockTypes[map[map.index(space) + 1]] == 'E' and space == playerPos:
                 coll_returns.append('enemy')
+                coll_returns.append(map[map.index(space) + 2])
     return coll_returns
 
 if moveError:
@@ -254,6 +255,8 @@ def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets 
     enemyImmunity = 0
     print(f"Oh no, you encountered a {tempEnemy[0]}!")
     while True:
+        print()
+        
         healItems = []
         defItems = []
         attackItems = []
@@ -280,7 +283,9 @@ def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets 
         print()
         
         print(f"Your health: {health}/100")
-        print(f"{tempEnemy[0]} health: {tempEnemy[1]}") #Displays enemy health
+        print(f"{tempEnemy[0]} health: {tempEnemy[1]}/{enemies[enemy][1]}") #Displays enemy health
+
+        print()
         
         userAttack = input('What do you want to do?: Use ')
         while userAttack not in inventory:
@@ -314,7 +319,9 @@ def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets 
             print()
         
             print(f"Your health: {health}/100")
-            print(f"{tempEnemy[0]} health: {tempEnemy[1]}") #Displays enemy health
+            print(f"{tempEnemy[0]} health: {tempEnemy[1]}/{enemies[enemy][1]}") #Displays enemy health
+            
+            print()
             
             userAttack = input('What do you want to do?: Use ')
         
@@ -333,11 +340,14 @@ def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets 
                         health = 100
             
         
-        if tempEnemy[1] < 0: #If enemy is dead
-            print(f'Congratulations, you defeated the {tempEnemy[2]}!')
-            break
+        if tempEnemy[1] <= 0: #If enemy is dead
+            print(f'Congratulations, you defeated the {tempEnemy[0]}!')
+            try:
+                inventory.append()
+            except:
+                return 'survived'
         
-        enemyAttack = random.choice[tempEnemy[2]] #Subtracts the user’s health by the damage of the enemy’s attack.
+        enemyAttack = tempEnemy[2][random.randint(tempEnemy[2].index(tempEnemy[2][0]), tempEnemy[2].index(tempEnemy[2][-1]))] #Subtracts the user’s health by the damage of the enemy’s attack.
         print(f"The {tempEnemy[0]} used {enemyAttack[1]}")
         if enemyAttack[0] == 'attack':
             enemyImmunity = 0
@@ -347,9 +357,11 @@ def combat(enemy): #The combat system for enemies. Takes a specific enemy, lets 
         elif enemyAttack[0] == 'heal':
             enemyImmunity = 0
             tempEnemy[1] += enemyAttack[2]
+            if tempEnemy[1] >= enemies[enemy][1]:
+                tempEnemy[1] = enemies[enemy][1]
 
 
-        if health < 0:
+        if health <= 0:
             print(f'Oh no, you were killed by a {tempEnemy[0]}!')
             return 'dead'
 
@@ -369,10 +381,11 @@ while moveError: #The loop that starts running the game. Includes a method of re
     playerPos = move()
     playMap()
     if 'enemy' in collision():
-        if 'dead' in combat(random.choice(enemies)):
+        if 'dead' in combat(collision()[collision().index('enemy') + 1]):
             restartGame = input('Game over. Play again? Y/n: ').lower()
             while True:
                 if restartGame == 'n':
+                    moveError = False
                     break
                 elif restartGame == 'y':
                     playerPos = [0, 0]
@@ -387,6 +400,7 @@ while moveError: #The loop that starts running the game. Includes a method of re
         restartGame = input('Game over. Play again? Y/n: ').lower()
         while True:
             if restartGame == 'n':
+                moveError = False
                 break
             elif restartGame == 'y':
                 playerPos = [0, 0]
