@@ -9,6 +9,7 @@ TO DO:
 import random
 import time
 import copy
+import os
 
 try: #Checks if the keyboard is installed and does not run the rest of the program if not.
     import keyboard
@@ -29,7 +30,7 @@ if moveError:
             screenSize = int(int(input("What do you want your screen size to be? (Higher = buggier): ")) / 2)
             while screenSize not in range(5, 16):
                 print("Input out of range. Try again.")
-                screenSize = int(int(input("What do you want your screen size to be? (range from 10-20): ")) / 2)
+                screenSize = int(int(input("What do you want your screen size to be? (range from 10-30): ")) / 2)
             else:
                 break
         except:
@@ -59,9 +60,42 @@ If you see an I on the map, that means an item is there. You should pick it up!
 blockTypes = ['▮', '▯', 'v', '^', '>', '<', 'C', 'E', 'I']
 
 # Adjusted Tutorial Map (with right-shifted platforms at y = 8)
-map = [[1, 0], 0]
+map = [
+#Screen 0, 0
+[0, 0], 0, [0, 1], 0, [0, 2], 0, [0, 3], 0, [0, 4], 0, [0, 5], 0, [0, 6], 0, [0, 7], 0, [0, 8], 0, [0, 9], 0, [0, 10], 0, [0, 11], 0, 
+[1, 0], 0, [1, 11], 0,
+[2, 0], 0, [2, 1], 0, [2, 11], 0,
+[3, 0], 0, [3, 2], 0, [3, 11], 0,
+[4, 0], 0, [4, 2], 0, [4, 11], 0,
+[5, 0], 0, [5, 2], 0, [5, 11], 0,
+[6, 0], 0, [6, 2], 0, [6, 11], 0,
+[7, 0], 0, [7, 2], 0, [7, 11], 0,
+[8, 0], 0, [8, 1], 0, [8, 11], 0,
+[9, 0], 0, [9, 11], 0,
+[10, 0], 0, [10, 11], 0,
+#Screen 1, 0
+[11, 0], 0,
+[12, 0], 0,
+[13, 0], 0, [13, 1], 3, [13, 5], 0,
+[14, 0], 0, [14, 1], 3, [14, 5], 0,
+[15, 0], 0, [15, 1], 3, [15, 5], 0,
+[16, 0], 0,
+[17, 0], 0, [17, 9], 0,
+[18, 0], 0, [18, 9], 0,
+[19, 0], 0, [19, 7], 0, [19, 8], 0, [19, 9], 0,
+[20, 0], 0, [20, 1], 3, [20, 4], 0, [20, 8], 6, [20, 9], 0,
+[21, 0], 0, [21, 1], 0, [21, 2], 0, [21, 3], 0, [21, 4], 0, [21, 5], 0, [21, 6], 0, [21, 7], 0, [21, 8], 0, [21, 9], 0, [21, 10], 0, 
+#Screen 1, 1
+[10, 12], 0, [10, 13], 0, [10, 14], 0, [10, 15], 0, [10, 16], 0, [10, 17], 0, [10, 18], 0, [10, 19], 0, [10, 20], 0,
+[11, 13], 0, [11, 19], 0,
+[12, 13], 0, [12, 14], 0, [12, 19], 0,
+[13, 13], 0, [13, 14], 0, [13, 15], 8, "Stone Sword",
+[14, 13], 0, [14, 14], 0,
+[15, 13], 0,
+[16, 13], 0,
 
-playerPos = [1, 1]
+]
+playerPos = [6, 3]
 gravity = 0.25
 velocity = [0, 0]
 mapBoard = '''
@@ -131,8 +165,7 @@ def area(x1, y1, x2, y2): #Defines a function which takes two coordinate points 
     return areaList
 
 def displayScreen():
-    for x in range(100):
-        print()
+    os.system('cls')
     row = []
     prevY = playerPos[1] + 5
     for space in area(playerPos[0] - screenSize, playerPos[1] - screenSize, playerPos[0] + screenSize, playerPos[1] + screenSize):
@@ -464,7 +497,6 @@ while moveError: #The loop that starts running the game. Includes a method of re
                 elif restartGame == 'y':
                     playerPos = [1, 1]
                     health = 100
-                    inventory = []
                     prevZone = "Rolling Hills"
                     break
                 else:
@@ -480,8 +512,6 @@ while moveError: #The loop that starts running the game. Includes a method of re
                 elif restartGame == 'y':
                     playerPos = [1, 1]
                     health = 100
-                    inventory = []
-                    coins = 0
                     prevZone = "Rolling Hills"
                     break
                 else:
